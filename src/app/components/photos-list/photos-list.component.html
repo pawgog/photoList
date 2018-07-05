@@ -1,0 +1,34 @@
+<div class="container">
+    <div class="row">  
+        <div class="input-group input-group-lg mb-3 mt-3">
+            <input type="text" class="form-control" [(ngModel)]="searchText" name="searchText" placeholder="Search By Title"/>
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" (click)="clearText()">Clear Text</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row" *ngFor="let photoList of photosList | searchPhoto : searchText | paginate: { itemsPerPage: 20, currentPage: page } ; let i = index">
+        <div *ngIf="photoList" class="card" style="width: 100%;">
+            <div class="card-body">
+                <div class="col-12 text-center">
+                    <h5 class="card-title"><b>{{photoList.title}}</b></h5>
+                </div>
+                <div class="col-12 text-center">
+                    <img src="{{photoList.thumbnailUrl}}" alt="photo-cover-{{i}}" height="150" width="150">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="(photosList | searchPhoto : searchText).length === 0">
+        <div class="card" style="width: 100%;">
+            <div class="card-body">
+                <div class="col-12 text-center">
+                    <h3 class="card-title"><b>No matches</b></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<pagination-controls (pageChange)="page = $event"></pagination-controls>
